@@ -1,30 +1,44 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <b-navbar>
+      <b-navbar-brand href="/">Forum App</b-navbar-brand>
+      <b-navbar-nav v-if="!user">
+        <b-nav-item href="#/">Forum</b-nav-item>
+        <b-nav-item href="#/login">Login</b-nav-item>
+        <b-nav-item href="#/signup">Sign Up</b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav v-else>
+        <b-nav-item href="#/">Forum</b-nav-item>
+        <b-nav-item href="#/profile">Profile</b-nav-item>
+        <b-nav-item @click="logout">Logout</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
+    <router-view></router-view>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase/config";
 
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+export default {
+  data() {
+    return {
+      user: null,
+    };
+  },
+  mounted() {
+    // Track user authentication state
+    onAuthStateChanged(auth, (user) => {
+      this.user = user;
+    });
+  },
+  methods: {
+    // Log the user out
+    async logout() {
+      await signOut(auth);
+      this.$router.push('/login');
+    }
+  }
+};
+</script>

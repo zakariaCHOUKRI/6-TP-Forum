@@ -1,25 +1,47 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Forum from '../components/Forum.vue';
+import Login from '../components/Login.vue';
+import SignUp from '../components/SignUp.vue';
+import AddDiscussion from '../components/AddDiscussion.vue';
+import Profile from '../components/Profile.vue';
+import Discussion from '../components/Discussion.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Forum',
+    component: Forum,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp,
+  },
+  {
+    path: '/add-discussion',
+    name: 'AddDiscussion',
+    component: AddDiscussion,
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+  },
+  {
+    path: '/',
+    name: 'Forum',
+    component: Discussion, // This will be the main discussion page
+  },
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
